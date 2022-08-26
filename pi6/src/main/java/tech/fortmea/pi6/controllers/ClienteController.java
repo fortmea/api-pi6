@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.fortmea.pi6.model.Cliente;
-
 @RestController
 @RequestMapping("/cliente")
 public class ClienteController {
@@ -40,6 +39,11 @@ public class ClienteController {
         }
         return _cliente;
     }
+    @GetMapping("/{any}")
+    public String retorna(@PathVariable String any){
+        return any;
+    }
+
 }
 
 
