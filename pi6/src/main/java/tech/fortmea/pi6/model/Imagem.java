@@ -1,13 +1,15 @@
 package tech.fortmea.pi6.model;
 
+
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Lob;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,18 +18,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-@Entity
-@Table(name = "cliente")
-public class Cliente {
-    @Id
+@Data
+@Embeddable
+public class Imagem {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(length = 100)
+    @Column
     private String nome;
 
-    @Column(length = 160)
-    private String endereco;
-    
+    @Column
+    private String descricao;
+
+    @Lob
+    @Column(length = 100000)
+    private byte[] dados;
+
 }

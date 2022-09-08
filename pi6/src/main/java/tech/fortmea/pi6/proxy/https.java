@@ -13,21 +13,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/proxy")
+@RequestMapping("/velho")
 public class https {
  
 	@GetMapping("/**")
    private String testIt(HttpServletRequest request){
+	System.out.println(request.getQueryString());
+    String requestURL = request.getRequestURL().substring(24)+"?"+request.getQueryString();
+	
 
-    String requestURL = request.getRequestURL().toString();
-
-    String https_url = requestURL.split("/proxy/")[1];
       URL url;
       try {
         try{
-	     url = new URL(https_url);
+	     url = new URL(requestURL);
         }catch(Exception e){
-            url = new URL("https://"+https_url);
+            url = new URL("https://"+requestURL);
         }
 	     HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
 			
