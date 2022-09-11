@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.lang.NonNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -29,6 +31,7 @@ public class Planta {
     private Long id;
     
     @Column
+    @NonNull
     private String nomeCientifico;
 
     @Column(columnDefinition = "TIMESTAMP")
@@ -42,8 +45,5 @@ public class Planta {
 
     @ElementCollection
     private List<String> topicosFarma;
-
-    @ElementCollection
-    private List<Imagem> imagens;
 
 }

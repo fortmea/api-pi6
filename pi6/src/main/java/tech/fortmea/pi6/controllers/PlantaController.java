@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,17 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.fortmea.pi6.model.Planta;
+import tech.fortmea.pi6.model.ReqDTO;
 import tech.fortmea.pi6.repository.PlantaRepository;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/planta")
 public class PlantaController {
     @Autowired
     PlantaRepository plantaRepository;
 
     @GetMapping("/")
-    public ResponseEntity<String> inicio() {
-        return ResponseEntity.ok("Ok.");
+    public ResponseEntity<List<Planta>> inicio() {
+        return ResponseEntity.ok(plantaRepository.findAll());
     }
 
     @PutMapping("/incluir")
@@ -35,8 +38,8 @@ public class PlantaController {
     }
 
     @DeleteMapping("/remover")
-    public ResponseEntity<String> remover(@RequestBody Long id) {
-        plantaRepository.deleteById(id);
+    public ResponseEntity<String> remover(@RequestBody ReqDTO req) {
+        plantaRepository.deleteById(req.getId());
         return ResponseEntity.ok("Removido com sucesso!");
     }
 
@@ -53,14 +56,15 @@ public class PlantaController {
     @GetMapping("/nome/{nome}")
     public List<Planta> retornaPlantaNome(@PathVariable String nome){
         try{
-           return plantaRepository.findByNomeContainingOrNomeCientificoContaining(nome, nome);
+           return plantaRepository.findAllByNomeContainingOrNomeCientificoContaining(nome, nome);
         }catch(Exception e){
+            System.out.println(e.getMessage());
             return new ArrayList<Planta>();
         }
     }
     @PatchMapping("/atualizar")
-    public Planta atualizaPlanta(@RequestBody Planta planta){
-        Planta oPlanta = plantaRepository.findById(planta.getId()).get();
-        return oPlanta;
+    public ResponseEntity<String> atualizaPlanta(@RequestBody Planta planta){
+        plantaRepository.save(planta);
+        return ResponseEntity.ok("Atualizado com sucesso!");
     }
 }

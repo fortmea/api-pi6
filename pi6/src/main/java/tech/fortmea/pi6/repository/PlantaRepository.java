@@ -9,5 +9,5 @@ import tech.fortmea.pi6.model.Planta;
 
 @Repository
 public interface PlantaRepository extends JpaRepository<Planta, Long>{
-    List<Planta> findByNomeContainingOrNomeCientificoContaining(String nome, String nomeCientifico);
+    List<Planta> findAllByNomeContainingOrNomeCientificoContaining(String nome, String nomeCientifico);
 }

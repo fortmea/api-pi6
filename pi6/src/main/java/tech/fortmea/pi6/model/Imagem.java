@@ -1,11 +1,15 @@
 package tech.fortmea.pi6.model;
 
 
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +22,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Embeddable
+@Entity
+@Table(name = "Imagem")
 public class Imagem {
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
@@ -33,4 +39,8 @@ public class Imagem {
     @Column(length = 100000)
     private byte[] dados;
 
+    @Column 
+    private Long plantaId;
+    @Column
+    private boolean favorita = false;
 }
