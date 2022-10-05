@@ -43,7 +43,7 @@ public class Planta {
     @ElementCollection
     private List<String> topicosAgro;
 
-    @ElementCollection
-    private List<String> topicosFarma;
 
+    @Column
+    private FarmaciaDados farmaciaDados;
 }

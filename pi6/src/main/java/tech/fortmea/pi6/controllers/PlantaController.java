@@ -65,7 +65,6 @@ public class PlantaController {
 
     @GetMapping("/nomep/{nome}")
     public List<Planta> retornaPlantaNomePopular(@PathVariable String nome) {
-
         try {
             return plantaRepository.findByNomeIn(nome);
         } catch (Exception e) {
@@ -83,7 +82,6 @@ public class PlantaController {
             for (int i = 0; i < pPop.size(); i++) {
                 Plantas.add(pPop.get(i));
             }
-
             return Plantas;
         } catch (Exception e) {
             System.out.println(e.getMessage());
