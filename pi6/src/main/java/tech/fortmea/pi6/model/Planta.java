@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,10 +41,10 @@ public class Planta {
     @ElementCollection
     private List<String> nome;
 
-    @ElementCollection
-    private List<String> topicosAgro;
-
-
     @Column
     private FarmaciaDados farmaciaDados;
+
+    @Column 
+    @Nullable
+    private AgroDados agroDados;
 }

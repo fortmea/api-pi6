@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tech.fortmea.pi6.model.ImageReqDTO;
 import tech.fortmea.pi6.model.Imagem;
 import tech.fortmea.pi6.model.Planta;
 import tech.fortmea.pi6.model.ReqDTO;
@@ -93,5 +94,19 @@ public class PlantaController {
     public ResponseEntity<String> atualizaPlanta(@RequestBody Planta planta) {
         plantaRepository.save(planta);
         return ResponseEntity.ok("Atualizado com sucesso!");
+    }
+
+    @PatchMapping("/favorita")
+    public ResponseEntity<String> atualizaFavorita(@RequestBody ImageReqDTO req) {
+
+        List<Imagem> imagens = imgRepo.findAllByPlantaId(req.getPlantaid());
+        for (int i = 0; i < imagens.size(); i++) {
+            Imagem img = imagens.get(i);
+            if (img.getPlantaId() == req.getImgid())
+                img.setFavorita(true);
+            else
+                img.setFavorita(false);
+        }
+        return ResponseEntity.ok("Imagem favorita atualizada com sucesso!");
     }
 }
