@@ -108,6 +108,7 @@ public class PlantaController {
     public ResponseEntity<String> atualizaFavorita(@RequestBody ImageReqDTO req) {
 
         List<Imagem> imagens = imgRepo.findAllByPlantaId(req.getPlantaid());
+        System.out.println(imagens);
         for (int i = 0; i < imagens.size(); i++) {
             Imagem img = imagens.get(i);
             System.out.println(img.getNome());
