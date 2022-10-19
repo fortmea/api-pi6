@@ -10,4 +10,6 @@ import tech.fortmea.pi6.model.Imagem;
 @Repository
 public interface ImagemRepository extends JpaRepository<Imagem, Long>{
     List<Imagem> findAllByPlantaId(Long id);
+
+    Imagem findByPlantaIdAndFavorita(Long id, Boolean favorita);
 }

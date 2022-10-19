@@ -95,14 +95,23 @@ public class PlantaController {
         plantaRepository.save(planta);
         return ResponseEntity.ok("Atualizado com sucesso!");
     }
-
+    @GetMapping("/{id}/favorita")
+    public ResponseEntity<Imagem> getFavorita(@PathVariable String id) {
+        Long lid = Long.valueOf(id);
+        try {
+            return ResponseEntity.ok(imgRepo.findByPlantaIdAndFavorita(lid, true));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new Imagem());
+        }
+    }
     @PatchMapping("/favorita")
     public ResponseEntity<String> atualizaFavorita(@RequestBody ImageReqDTO req) {
 
         List<Imagem> imagens = imgRepo.findAllByPlantaId(req.getPlantaid());
         for (int i = 0; i < imagens.size(); i++) {
             Imagem img = imagens.get(i);
-            if (img.getPlantaId() == req.getImgid())
+            System.out.println(img.getNome());
+            if (img.getId() == req.getImgid())
                 img.setFavorita(true);
             else
                 img.setFavorita(false);
