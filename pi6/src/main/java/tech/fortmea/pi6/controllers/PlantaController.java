@@ -107,16 +107,14 @@ public class PlantaController {
     @PatchMapping("/favorita")
     public ResponseEntity<String> atualizaFavorita(@RequestBody ImageReqDTO req) {
 
-        List<Imagem> imagens = imgRepo.findAllByPlantaId(req.getPlantaid());
-        System.out.println(imagens);
-        for (int i = 0; i < imagens.size(); i++) {
-            Imagem img = imagens.get(i);
-            System.out.println(img.getNome());
-            if (img.getId() == req.getImgid())
-                img.setFavorita(true);
-            else
-                img.setFavorita(false);
+        Imagem img = imgRepo.findByPlantaIdAndFavorita(req.getPlantaid(), true);
+        if (img != null) {
+            img.setFavorita(false);
+            imgRepo.save(img);
         }
+        Imagem nFavorita = imgRepo.findById(req.getImgid()).get();
+        nFavorita.setFavorita(true);
+        imgRepo.save(nFavorita);
         return ResponseEntity.ok("Imagem favorita atualizada com sucesso!");
     }
 }
