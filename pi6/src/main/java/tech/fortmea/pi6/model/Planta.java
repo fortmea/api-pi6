@@ -47,4 +47,7 @@ public class Planta {
     @Column 
     @Nullable
     private AgroDados agroDados;
+
+    @ElementCollection
+    private List<Video> videos;
 }

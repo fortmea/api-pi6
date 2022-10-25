@@ -44,7 +44,7 @@ public class ImagemController {
         imgRepo.deleteById(req.getId());
         return ResponseEntity.ok("Removido com sucesso!");
     }
-    @GetMapping("/favorita/{id}")
+    @GetMapping("/favorita/planta/{id}")
     public ResponseEntity<Imagem> getFavorita(@PathVariable String id) {
         Long lid = Long.valueOf(id);
         try {
@@ -55,7 +55,6 @@ public class ImagemController {
     }
     @PatchMapping("/favorita")
     public ResponseEntity<String> atualizaFavorita(@RequestBody ImageReqDTO req) {
-        System.out.println(req);
         Imagem img = imgRepo.findByPlantaIdAndFavorita(req.getPlantaid(), true);
         if(img != null){
             img.setFavorita(false);
@@ -64,7 +63,6 @@ public class ImagemController {
         Imagem nFavorita = imgRepo.findById(req.getImgid()).get();
         nFavorita.setFavorita(true);
         imgRepo.save(nFavorita);
-        System.out.println(nFavorita);
         return ResponseEntity.ok("Atualizado com sucesso!");
     }
 }
