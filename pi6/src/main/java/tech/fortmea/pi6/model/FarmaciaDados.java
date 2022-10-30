@@ -20,15 +20,25 @@ import lombok.Setter;
 @Data
 @Embeddable
 public class FarmaciaDados {
-    
-    @Column(length = 1000)
+
+    @Lob
+    @Column
     private String utilizacao;
-    
-    @Column(length = 1000)
+
+    @Lob
+    @Column
     private String terapeutico;
-    
-    @Column(length = 1000)
+
+    @Lob
+    @Column
     private String contraindicacao;
+
+    @Lob
+    @Column
+    private String beneficios;
+
     @ElementCollection
+    @Lob
+    @Column
     private List<String> modoDeUsar;
 }

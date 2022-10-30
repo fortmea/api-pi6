@@ -17,22 +17,28 @@ import lombok.Setter;
 @Data
 @Embeddable
 public class AgroDados {
-    
-    @Column(length = 1000)
+
+    @Lob
+    @Column
     private String tratosCulturais;
-    
-    @Column(length = 1000)
+
+    @Lob
+    @Column
     private String cultivo;
-    
-    @Column(length = 1000)
+
+    @Lob
+    @Column
     private String materialMetodos;
-    
-    @Column(length = 1000)
+
+    @Lob
+    @Column
     private String adubacao;
-    
-    @Column(length = 1000)
+
+    @Lob
+    @Column
     private String praga;
-    
-    @Column(length = 1000)
+
+    @Lob
+    @Column
     private String irrigacao;
 }

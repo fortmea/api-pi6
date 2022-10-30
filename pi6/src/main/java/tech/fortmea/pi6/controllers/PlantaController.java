@@ -50,6 +50,7 @@ public class PlantaController {
             imgRepo.deleteById(imagens.get(i).getId());
         }
         plantaRepository.deleteById(req.getId());
+        
 
         return ResponseEntity.ok("Removido com sucesso!");
     }
@@ -68,6 +69,7 @@ public class PlantaController {
     public List<Planta> retornaPlantaNomePopular(@PathVariable String nome) {
         try {
             return plantaRepository.findByNomeIn(nome);
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ArrayList<Planta>();
