@@ -32,7 +32,10 @@ public class FarmaciaDados {
     @Lob
     @Column
     private String contraindicacao;
-
+    @Lob
+    @Column
+    private String fonte;
+    
     @Lob
     @Column
     private String beneficios;

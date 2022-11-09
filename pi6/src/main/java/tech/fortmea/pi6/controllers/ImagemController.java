@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.fortmea.pi6.repository.ImagemRepository;
+import tech.fortmea.pi6.repository.authKeyRepository;
 import tech.fortmea.pi6.model.ImageReqDTO;
 import tech.fortmea.pi6.model.Imagem;
 import tech.fortmea.pi6.model.ReqDTO;
@@ -27,6 +29,10 @@ public class ImagemController {
     @Autowired
     ImagemRepository imgRepo;
 
+    @Autowired
+    authKeyRepository authKeyRepo;
+    AuthController authController = new AuthController();
+
     @GetMapping("/plantaid/{id}")
     public ResponseEntity<List<Imagem>> listaPorIdPlanta(@PathVariable String id) {
         Long lid = Long.valueOf(id);
@@ -34,16 +40,28 @@ public class ImagemController {
     }
 
     @PutMapping("/incluir")
-    public ResponseEntity<String> AdicionarImagem(@RequestBody Imagem img) {
-        imgRepo.save(img);
-        return ResponseEntity.ok("Adicionada com sucesso!");
+    public ResponseEntity<String> AdicionarImagem(@RequestBody Imagem img,
+            @RequestHeader("Authorization") String auth) {
+        if (authKeyRepository.findByMd5(auth)!=null) {
+            imgRepo.save(img);
+            return ResponseEntity.ok("Adicionada com sucesso!");
+        } else {
+            return ResponseEntity.status(403).body("Não autorizado.");
+        }
+
     }
 
     @DeleteMapping("/remover")
-    public ResponseEntity<String> RemoverImagem(@RequestBody ReqDTO req) {
-        imgRepo.deleteById(req.getId());
-        return ResponseEntity.ok("Removido com sucesso!");
+    public ResponseEntity<String> RemoverImagem(@RequestBody ReqDTO req, @RequestHeader("Authorization") String auth) {
+        if (authKeyRepository.findByMd5(auth)!=null) {
+
+            imgRepo.deleteById(req.getId());
+            return ResponseEntity.ok("Removido com sucesso!");
+        } else {
+            return ResponseEntity.status(403).body("Não autorizado.");
+        }
     }
+
     @GetMapping("/favorita/planta/{id}")
     public ResponseEntity<Imagem> getFavorita(@PathVariable String id) {
         Long lid = Long.valueOf(id);
@@ -53,16 +71,22 @@ public class ImagemController {
             return ResponseEntity.ok(new Imagem());
         }
     }
+
     @PatchMapping("/favorita")
-    public ResponseEntity<String> atualizaFavorita(@RequestBody ImageReqDTO req) {
-        Imagem img = imgRepo.findByPlantaIdAndFavorita(req.getPlantaid(), true);
-        if(img != null){
-            img.setFavorita(false);
-            imgRepo.save(img);
+    public ResponseEntity<String> atualizaFavorita(@RequestBody ImageReqDTO req,
+            @RequestHeader("Authorization") String auth) {
+        if (authKeyRepository.findByMd5(auth)!=null) {
+            Imagem img = imgRepo.findByPlantaIdAndFavorita(req.getPlantaid(), true);
+            if (img != null) {
+                img.setFavorita(false);
+                imgRepo.save(img);
+            }
+            Imagem nFavorita = imgRepo.findById(req.getImgid()).get();
+            nFavorita.setFavorita(true);
+            imgRepo.save(nFavorita);
+            return ResponseEntity.ok("Atualizado com sucesso!");
+        } else {
+            return ResponseEntity.status(403).body("Não autorizado.");
         }
-        Imagem nFavorita = imgRepo.findById(req.getImgid()).get();
-        nFavorita.setFavorita(true);
-        imgRepo.save(nFavorita);
-        return ResponseEntity.ok("Atualizado com sucesso!");
     }
 }

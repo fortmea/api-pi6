@@ -30,31 +30,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "Planta")
-public class Planta {
+@Table(name = "Usuario")
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
+    @NonNull
+    private String nome;
+
     @Column
     @NonNull
-    private String nomeCientifico;
-
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime dateTime;
-
-    @ElementCollection
-    private List<String> nome;
-
-    @Column
-    private FarmaciaDados farmaciaDados;
-
-
-
-    @Column
-    @Nullable
-    private AgroDados agroDados;
-    
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Video> videos = new ArrayList<>();
+    private String senha;
 }
+
